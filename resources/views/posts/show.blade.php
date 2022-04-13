@@ -3,7 +3,7 @@
 use Carbon\Carbon;
 
 $date = Carbon::parse("{$post['created_at']}", 'UTC');
-$formatedDate = $date->isoFormat('MMMM Do YYYY, h:mm:ss a');
+$formatedDate = $date->format('l jS \\of F Y h:i:s A');
 ?>
 @extends('layouts.app')
 
@@ -28,4 +28,4 @@ $formatedDate = $date->isoFormat('MMMM Do YYYY, h:mm:ss a');
 
     </div>
 </div>
-@endsection -->
+@endsection

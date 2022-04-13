@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Validation\Rule;
+
 
 class PostController extends Controller
 {
@@ -31,12 +33,15 @@ class PostController extends Controller
 
     public function store()
     {
-        //get me the request data
-        // $data = $_REQUEST; don't use plain php in laravel framework
-        $data = request()->all();
-        // $title = request()->title;
+        //validate the data
+        request()->validate([
+            'title' => ['required', 'min:3', 'unique:posts'],
+            'description' => ['required', 'min:10'],
+            'post_creator' => ['required', 'exists:users,id']
+        ]);
 
-        //store the request data in the db
+        $data = request()->all();
+        // dd($data);
         Post::create([
             'title' => $data['title'],
             'description' => $data['description'],
@@ -51,6 +56,7 @@ class PostController extends Controller
     {
         //select * from posts where id = 1
         $dbPost = Post::find($post); //App\Models\Post
+        // dd($dbPost);
         return view('posts.show', ['post' => $dbPost]);
     }
 
@@ -67,6 +73,12 @@ class PostController extends Controller
     public function update($id, Request $request)
     {
         $post = $request->all();
+        request()->validate([
+
+            'title' => ['required', Rule::unique('posts')->ignore(Post::find($id)), 'min:3'],
+            'description' => ['required', 'min:10'],
+            'post_creator' => ['required', 'exists:users,id']
+        ]);
         // dd($post);
         Post::find($id)->update(['title' => $post['title'], 'user_id' => $post['post_creator'], "description" => $post['description']]);
 

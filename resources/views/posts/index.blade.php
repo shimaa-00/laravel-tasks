@@ -15,7 +15,7 @@ use App\Models\Post;
 <div class="text-center">
     <a href="{{ route('posts.create') }}" class="mt-4 btn btn-success">Create Post</a>
 </div>
-<table class="table mt-4" style="width:100%;">
+<table class="table mt-4  ">
     <thead>
         <tr>
             <th scope="col">#</th>

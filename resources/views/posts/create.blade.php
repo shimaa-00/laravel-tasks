@@ -3,7 +3,16 @@
 @section('title')Create @endsection
 
 @section('content')
-<form method="POST" action="{{route('posts.store')}}">
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+<form class="col-6 mx-auto my-5" method="POST" action="{{route('posts.store')}}">
     @csrf
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Title</label>
